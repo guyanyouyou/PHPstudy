@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 
 
@@ -58,11 +58,56 @@ class Mysql{
     }
 
     //负责获取多行多列的查询结果
-    public function getAll(){
+    public function getAll($sql){
+        $list = array();
+        $rs = $this->query($sql);
+        if (!$rs) {
+            return false;
+        }
 
+        while($row = mysql_fetch_assoc($rs)){
+            $list[] = $row;
+        }
+        return $list;
+    }
+
+    //获取一行的select结果
+    public function getRow($sql){
+        $rs = $this->query($sql);
+
+        if (!$rs) {
+            return false;
+        }
+
+        return mysql_fetch_assoc($rs);
+    }
+
+    //获取一个单个的值
+    public function getOne($sql){
+        $rs = $this->query($sql);
+
+        if (!$rs) {
+            return false;
+        }
+
+        $row = mysql_fetch_row($rs);
+
+        return $row[0];
+    }
+
+    public function close(){
+        mysql_close();
     }
 }
 
+
+/**
+ *  改进：
+ *  insert update 操作，都需要大量拼接字符串
+ *  能否给定一个数组，数组键-》列，数组值-》列的值
+ *  然后自动生成insert语句！
+ * @var Mysql
+ */
 $mysql = new Mysql();
 
 $sql = "insert into stu values (20,'object','998')";
