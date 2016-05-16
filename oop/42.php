@@ -1,102 +1,45 @@
-<?php 
-
+<?php
 /**
- * 类：是某一类无的抽象，是某类对象的蓝图
- * 比如：女娲造人时，脑子中关于人的形象 就是人类 class Human
- *
- * 如果，女娲决定造人时，同时，形象又没最终定稿时，
- * 他脑子有哪些支离破碎的形象呢？
- *
- * 她可能会这么思考：
- * 动物：吃饭
- * 猴子：奔跑
- * 猴子：哭
- * 自己：思考
- * 小鸟:飞
- * 我造一种生物，命名为人，应该有如下功能
- * eat()
- * run()
- * cry()
- * think()
- *
- * 类如果是一种实物/动物的抽象
- * 那么接口则是实物/动物的功能的抽象
- * 即，再把他们的功能各拆成小块
- * 自由组合成新的物种
+ * @Author: 孤雁幽幽
+ * @Date:   2016-04-06 23:43:29
+ * @Last Modified by:   孤雁幽幽
+ * @Last Modified time: 2016-05-16 20:35:09
  */
+class Animal{
+    const age = 1;
+    public static $leg = 4;
 
-interface animal{
-    public function eat();
+    public static function cry(){
+        echo "呜呜<br>";
+    }
+
+    public static function t1(){
+        self::cry();
+        echo self::age,'<br>';
+        echo self::$leg,'<br>';
+    }
+    public static function t2(){
+        static::cry();
+        echo static::age,'<br>';
+        echo static::$leg,'<br>';
+    }
 }
 
-interface monkey{
-    public function run();
-    public function cry();
+class Human extends Animal{
+    const age = 30;
+    public static $leg = 2;
+    public static function cry(){
+        echo "哇哇<br>";
+    }
 }
 
-interface wisdom{
-    public function think();
+class Stu extends Human{
+    const age = 16;
+    public static $leg = 3;
+    public static function cry(){
+        echo "伊伊<br>";
+    }
 }
-interface bird{
-    public function fly();
-}
 
-/**
- * 如上，我们把每个类重的这种实现的功能拆出来
- * 分析：如果有一种新生物，实现了eat() + run() + cry() + think()，这种智慧生物，可以教做人
- */
-
- class Human implements animal,monkey,wisdom{
-
- }
-    /**
-     * 尽然说我有4个抽象方法
-     * 因为接口的方法 本身就是抽象，不要有方法体，也不比加abstract
-     */
- class Human implements animal,monkey,wisdom{
-        public function eat(){
-            echo "吃";
-        }
-
-        public function run(){
-            echo "走";
-        }
-
-        public function cry(){
-            echo "哭";
-        }
-
-        public function think(){
-            echo "思考";
-        }
-  }
-
-  $lisi = new Human();
-  $lisi->think();
-
-  /**
-   * 根据接口造一个鸟人
-   */
-  class BirdMan implements animal,monkey,wisdom,bird{
-        public function eat(){
-            echo "吃";
-        }
-
-        public function run(){
-            echo "走";
-        }
-
-        public function cry(){
-            echo "哭";
-        }
-
-        public function think(){
-            echo "思考";
-        }
-        public function fly(){
-            echo "Hi,我是【表情】，但大家都叫我鸟人";
-        }
-  }
-  $birdli = new BirdMan();
-  $birdli->fly();
-?>
+Stu::t1();
+Stu::t2();
