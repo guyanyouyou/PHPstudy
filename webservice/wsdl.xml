@@ -1,0 +1,59 @@
+<?xml version ='1.0' encoding ='UTF-8' ?>
+<definitions name='guyanyouyou'
+targetNamespace='http://localhost'
+xmlns:tns=' 命名空间 [ 值同 targetNamespace]'
+xmlns:soap='http://schemas.xmlsoap.org/wsdl/soap/'
+xmlns:xsd='http://www.w3.org/2001/XMLSchema'
+xmlns:soapenc='http://schemas.xmlsoap.org/soap/encoding/'
+xmlns:wsdl='http://schemas.xmlsoap.org/wsdl/'
+xmlns='http://schemas.xmlsoap.org/wsdl/'>
+<!--<types>  元素定义 web service  使用的数据类型 ,WSDL  使用 XML Schema  语法来定义数据类型 , 也可以自定义 Schema 不包含的类型 -->
+<types>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+targetNamespace="[ 值同上 tns]">
+</xsd:schema>
+</types>
+<!--
+<message>  元素可定义每个消息的部件 , 以及相关联的数据类型 .
+-->
+<message name=' 操作名 Request'>
+<part name="term" type="xsd:string"/>
+</message>
+<message name=' 操作名 Response'>
+<part name="value" type="xsd:string"/>
+</message>
+<!--
+<portType>  元素是最重要的 WSDL  元素 . 它可描述一个 web service 、可被执行的操作 , 以及相关的消息 .
+它告诉你去哪个 WebService 的连接点 , 扮演了一个控制者 .
+-->
+<portType name=' 操作列表名 '>
+<operation name=' 操作名 '>
+<input message='tns: 操作名 Request'/>
+<output message='tns: 操作名 Response'/>
+</operation>
+</portType>
+<!--<binding>  元素为每个端口定义消息格式和协议细节 -->
+<binding name='WS 下的频道名称 ' type='tns: 频道下的操作列表 '>
+<!--style: 属性可取值 "rpc"  或 "document",ransport: 属性定义了要使用的 SOAP  协议 . 在这个例子中我们使用 HTTP-->
+<soap:binding style='rpc'
+transport='http://schemas.xmlsoap.org/soap/http'/>
+<!--operation  元素定义了每个端口提供的操作符 , 对于每个操作 , 相应的 SOAP  行为都需要被定义 -->
+<operation name='test'>
+<soap:operation soapAction='http://www.cwtservice.cn/newOperation/'/>
+<input>
+<soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+</input>
+<output>
+<soap:body use='encoded' namespace='urn:xmethods-delayed-quotes'
+encodingStyle='http://schemas.xmlsoap.org/soap/encoding/'/>
+</output>
+</operation>
+</binding>
+<!--<service> 包含一个或者多个 port 元素 , 每个 port 元素表示一个不同的 Web 服务 -->
+<service name='WebService 名称 [ 如 weatherWS,shopWS]'>
+<port name='WS 下的频道名称 [ 如 cartSoap, 购物车服务 ]' binding='tns:[ 频道名 , 同左 ]'>
+<soap:address location='http://[webservice 地址 ]'/>
+</port>
+</service>
+</definitions>
